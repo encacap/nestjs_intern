@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+import { Roles } from 'src/decorators/roles.decorator';
 import { ForbiddenException } from 'src/exceptions/forbidden.exception';
+import { RolesGuard } from 'src/guards/roles.guard';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cat.interface';
 
+@UseGuards(RolesGuard)
 @Controller('cats')
 export class CatController {
   constructor(private readonly catService: CatService) {}
@@ -18,6 +21,7 @@ export class CatController {
     return this.catService.findOneById(id);
   }
 
+  @Roles('admin', 'user')
   @Post()
   createOne(@Body() cat: CreateCatDto): Promise<Cat> {
     return this.catService.createOne(cat);
