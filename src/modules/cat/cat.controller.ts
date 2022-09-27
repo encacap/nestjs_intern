@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
-import { Roles } from 'src/decorators/roles.decorator';
-import { ForbiddenException } from 'src/exceptions/forbidden.exception';
-import { RolesGuard } from 'src/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { ForbiddenException } from 'src/common/exceptions/forbidden.exception';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Cat } from './interfaces/cat.interface';
