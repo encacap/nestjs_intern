@@ -1,5 +1,5 @@
 export interface DatabaseConfig {
-  type: string;
+  type: 'mysql' | 'postgres';
   host: string;
   port: number;
   username: string;
