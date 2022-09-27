@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { ForbiddenException } from 'src/exceptions/forbidden.exception';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -11,6 +11,11 @@ export class CatController {
   @Get()
   findAll(): Promise<Cat[]> {
     throw new ForbiddenException();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Cat[]> {
+    return this.catService.findOneById(id);
   }
 
   @Post()

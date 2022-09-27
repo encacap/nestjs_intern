@@ -13,4 +13,8 @@ export class CatService {
   public async findAll(): Promise<Cat[]> {
     return this.cats;
   }
+
+  public async findOneById(id: number): Promise<Cat[]> {
+    return this.cats.filter((cat) => cat.age === id);
+  }
 }
