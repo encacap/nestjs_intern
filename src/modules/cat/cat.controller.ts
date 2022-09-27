@@ -1,7 +1,5 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { ForbiddenException } from 'src/common/exceptions/forbidden.exception';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { LoggerInterceptor } from 'src/common/interceptors/logger.interceptor';
 import { CatService } from './cat.service';
@@ -12,15 +10,15 @@ import { Cat } from './interfaces/cat.interface';
 @UseInterceptors(LoggerInterceptor)
 @Controller('cats')
 export class CatController {
-  constructor(private readonly catService: CatService, private readonly configService: ConfigService) {}
+  constructor(private readonly catService: CatService) {}
 
   @Get()
   findAll(): Promise<Cat[]> {
-    throw new ForbiddenException();
+    return this.catService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Cat[]> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Cat> {
     return this.catService.findOneById(id);
   }
 
