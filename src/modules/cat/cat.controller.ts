@@ -16,7 +16,6 @@ export class CatController {
 
   @Get()
   findAll(): Promise<Cat[]> {
-    console.log(this.configService.get('database'));
     throw new ForbiddenException();
   }
 
