@@ -29,7 +29,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
       message: responseMessage,
       errors: responseErrors,
-      errorStack: responseErrorStack,
+      ...(httpStatus === HttpStatus.INTERNAL_SERVER_ERROR && { stack: responseErrorStack }),
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

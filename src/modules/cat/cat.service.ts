@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCatDto } from './dto/create-cat.dto';
@@ -36,6 +36,16 @@ export class CatService {
   }
 
   public async findOneById(id: number): Promise<Cat> {
-    return this.catRepository.findOneBy({ id });
+    const cat = await this.catRepository
+      .createQueryBuilder('cat')
+      .leftJoinAndSelect('cat.breed', 'cat_breeds')
+      .where('cat.id = :catId', { catId: id })
+      .getOne();
+
+    if (!cat) {
+      throw new NotFoundException('Cat not found');
+    }
+
+    return cat;
   }
 }
