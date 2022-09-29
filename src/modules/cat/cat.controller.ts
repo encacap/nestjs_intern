@@ -4,7 +4,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 import { LoggerInterceptor } from 'src/common/interceptors/logger.interceptor';
 import { CatService } from './cat.service';
 import { CreateCatDto } from './dto/create-cat.dto';
-import { Cat } from './interfaces/cat.interface';
+import { Cat } from './entities/cat.entity';
 
 @UseGuards(RolesGuard)
 @UseInterceptors(LoggerInterceptor)
@@ -24,7 +24,7 @@ export class CatController {
 
   @Roles('admin', 'user')
   @Post()
-  createOne(@Body() cat: CreateCatDto): Promise<Cat> {
+  async createOne(@Body() cat: CreateCatDto): Promise<Cat> {
     return this.catService.createOne(cat);
   }
 }

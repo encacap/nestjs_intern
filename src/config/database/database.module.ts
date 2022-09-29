@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CatEntity } from 'src/modules/cat/entities/cat.entity';
+import { CatBreed } from 'src/modules/cat/entities/cat-breed.entity';
+import { Cat } from 'src/modules/cat/entities/cat.entity';
 import { DatabaseConfig } from './database.interface';
 
 @Module({
@@ -16,7 +17,7 @@ import { DatabaseConfig } from './database.interface';
           username: databaseConfig.username,
           password: databaseConfig.password,
           database: databaseConfig.database,
-          entities: [CatEntity],
+          entities: [Cat, CatBreed],
           synchronize: true,
         };
       },

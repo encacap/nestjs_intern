@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CatBreed } from './cat-breed.entity';
 
 @Entity({
   name: 'cats',
 })
-export class CatEntity {
+export class Cat extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -13,6 +14,7 @@ export class CatEntity {
   @Column()
   age: number;
 
-  @Column()
-  breed: string;
+  @OneToOne(() => CatBreed, (catBreed) => catBreed.cat)
+  @JoinColumn()
+  breed: CatBreed;
 }

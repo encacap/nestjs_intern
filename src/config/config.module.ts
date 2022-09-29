@@ -6,7 +6,7 @@ import databaseConfig from './database/configuration';
 @Module({
   imports: [
     NestConfigModule.forRoot({
-      envFilePath: ['.env.local'],
+      envFilePath: ['.env.local', '.env.development'],
       isGlobal: true,
       load: [databaseConfig],
       validationSchema: Joi.object({

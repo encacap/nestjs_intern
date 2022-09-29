@@ -14,9 +14,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     let responseErrors = [];
+    let responseErrorStack = [];
 
     if (exception instanceof HttpException) {
       responseErrors = exception.getResponse()['errors'];
+    } else if (exception instanceof Error) {
+      responseErrorStack = exception.stack.split('\n').map((line) => line.trim());
     }
 
     const responseMessage = exception instanceof Error ? exception.message : exception;
@@ -26,6 +29,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
       message: responseMessage,
       errors: responseErrors,
+      errorStack: responseErrorStack,
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
